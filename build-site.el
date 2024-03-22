@@ -1,6 +1,6 @@
 :;exec emacs --quick --script   "$0" 
 
-(defconst zv-hugo-base-dir "/home/valjean/workspace/notes/blogs/")
+(defconst zv-hugo-base-dir "./")
 (defconst content-org "./")
 
 (let ((static-dir (concat zv-hugo-base-dir "static/")))
@@ -10,9 +10,9 @@
 ;; Install packages
 (require 'package)
 
-(setq package-archives '(("gnu" . "http://mirrors.ustc.edu.cn/elpa/gnu/") 
-			("melpa" . "http://mirrors.ustc.edu.cn/elpa/melpa/") 
-			("nongnu" . "http://mirrors.ustc.edu.cn/elpa/nongnu/")))
+;; (setq package-archives '(("gnu" . "http://mirrors.ustc.edu.cn/elpa/gnu/") 
+;; 			("melpa" . "http://mirrors.ustc.edu.cn/elpa/melpa/") 
+;; 			("nongnu" . "http://mirrors.ustc.edu.cn/elpa/nongnu/")))
 
 (package-initialize)
 (unless package-archive-contents
@@ -31,8 +31,7 @@
 (progn
   (setq org-hugo-base-dir zv-hugo-base-dir)
   (setq org-pattern "\\.org$")
-  (setq org-id-track-globally t)
-  (setq org-id-locations-file "/home/valjean/.emacs.d/var/org/id-locations.el")
+  ;; (setq org-id-track-globally t)
   (org-id-locations-load))
 
 
