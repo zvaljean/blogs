@@ -39,6 +39,9 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Debug-Pwd-1
+        run: pwd
+
       - name: Setup Pages
         id: pages
         uses: actions/configure-pages@v4
@@ -51,6 +54,9 @@ jobs:
 
       - name: Convert Org to Markdown
         run: emacs -Q --script build-site.el
+
+      - name: Debug-Pwd-2
+        run: pwd
 
       - name: Build with Hugo
         env:
