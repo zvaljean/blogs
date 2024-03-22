@@ -7,6 +7,9 @@
 !.github/
 !.github/**
 
+!themes/
+!themes/**
+
 !content-org/
 !content-org/**
 content-org/**/*.~undo-tree~

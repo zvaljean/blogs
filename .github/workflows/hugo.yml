@@ -42,6 +42,9 @@ jobs:
       - name: Setup Pages
         id: pages
         uses: actions/configure-pages@v4
+        with:
+          submodules: true
+          fetch-depth: 0
 
       - name: Install Emacs
         run: sudo apt install emacs-nox --yes
