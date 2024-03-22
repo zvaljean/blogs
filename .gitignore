@@ -1,0 +1,14 @@
+*
+!build-site.el
+!.gitignore
+!.dir-locals.el
+!content-org/
+!content-org/**
+content-org/**/*.~undo-tree~
+
+!layouts/
+!layouts/**
+layouts/**/*.~undo-tree~
+
+
+!config.toml

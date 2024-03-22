@@ -1,0 +1,91 @@
+:PROPERTIES:
+:ID:       064c2499-c4e5-4466-a087-77bd44248ff1
+:END:
+#+hugo_section: ./posts/
+#+title: fcitx & rime
+#+filetags: :rime:fcitx5:blog:
+#+category: linux
+#+PRIORITIES: A D B 
+#+date: [2024-03-22 Fri]
+#+author: valjean
+#+hugo_weight: 685
+#+hugo_auto_set_lastmod: t
+#+hugo_tags: :rime:fcitx5:blog:
+#+hugo_categories: linux 
+#+hugo_menu: :menu "main" :weight 68
+#+hugo_custom_front_matter: 
+#+hugo_draft: false
+
+* fcitx5 :fcitx5:
+** docs
+- https://wiki.archlinux.org/title/Fcitx5
+- https://fcitx-im.org/wiki/Fcitx_5/zh-cn
+- https://github.com/rime/home/wiki/RimeWithSchemata#rime-with-schemata
+- https://blog.allwens.work/useFcitx5 :: 该文章讲的很详细
+** install
+- *卸载* 原有的fcitx包
+  #+begin_src shell
+    sudo pacman -Rs $(pacman -Qsq fcitx)
+  #+end_src
+- 安装 fcitx5 
+  - [[https://wiki.archlinux.org/title/Fcitx5][fcitx5-im]] 是一组安装包，已经包含fcitx5的相关包
+  #+begin_src shell
+    sudo pacman -S fcitx5-im
+  #+end_src
+** config
+*** env variable
+- 在 ~~/.xprofile~ 中添加以下内容, 或者直接执行一下命令
+#+begin_src sh
+    cat > ~/.xprofile << EOF
+    export INPUT_METHOD=fcitx5
+    export GTK_IM_MODULE=fcitx5
+    export QT_IM_MODULE=fcitx5
+    export XMODIFIERS=@im=fcitx5
+    EOF
+#+end_src
+*** autostart
+- ~kde plasma~  添加自启动如下，其他系统请自行搜索
+  #+DOWNLOADED: screenshot @ 2024-03-20 22:19:41
+  #+attr_html: :width 50% :align center
+  #+attr_org: :width 100px
+  [[file:images/20240320-221941_screenshot.png]]
+*** add input method
+刚刚的安装包已经安装， *fcitx5-configtool* ， 用于配置fcitx.
+此处若是找不到rime，需要登出，或者重启下。
+  #+DOWNLOADED: screenshot @ 2024-03-20 22:21:19
+  #+attr_html: :width 50% :align center
+  #+attr_org: :width 100px
+  [[file:images/20240320-222119_screenshot.png]]
+*** clipboard & Quick Phrase
+fcitx 自带的粘贴板是我最喜欢的功能了。kde系统自带的，玩的不太顺手。
+*Quick Phrase* 可以根据配置好的提示语，进行扩展。比如将自己的邮箱、电话设置后，
+可以在一些场景下快速输入。默认需要搭配一个快捷键。按完快捷键后，输入提示语即可。
+iphone自带的输入法也有类似的功能。
+#+DOWNLOADED: screenshot @ 2024-03-20 22:25:30
+#+attr_html: :width 50% :align center
+#+attr_org: :width 100px
+[[file:images/20240320-222530_screenshot.png]]
+* rime :rime:idea:
+** docs
+  - https://github.com/rime/plum
+  - https://github.com/rime/home/wiki
+  - https://rime.im/docs/
+  - https://github.com/rime/home/wiki/RimeWithSchemata
+  - https://kassadin.moe/2019/11/25/028-ibus-initial-setup/
+** install
+- fcitx5-im 包中已经带了相关的安装包
+** config
+- ibus
+    配置文件在， *~/.config/ibus/rime/* 。安装了一次ibus，个人角度功能和使用感受，不如fcitx。
+- fcitx5
+    配置文件在， *~/.local/share/fcitx5/rime/* 和 */usr/share/rime-data*
+    前者是用户自己的配置目录，可以添加自己相关的配置
+- patch :: 设置默认的输入法
+  默认情况下，rime是繁体输入，可以在配置 *~/.local/share/fcitx5/rime/default.custom.yaml* 中
+  增加如下内容即可,会覆盖默认的schema_list参数
+    #+begin_src yaml
+    # add following lines
+    patch:
+    schema_list:
+        - schema: luna_pinyin_simp
+    #+end_src
