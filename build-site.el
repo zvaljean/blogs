@@ -18,7 +18,10 @@
 (unless package-archive-contents
 	(package-refresh-contents))
 
-(dolist (pkg '(org ox-hugo))
+(setq pkgs '(org ox-hugo))
+(setq package-selected-packages pkgs)
+
+(dolist (pkg pkgs)
   (unless (package-installed-p pkg)
     (package-install pkg)))
 
