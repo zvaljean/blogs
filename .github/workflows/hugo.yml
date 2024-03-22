@@ -50,7 +50,7 @@ jobs:
         run: sudo apt install emacs-nox --yes
 
       - name: Convert Org to Markdown
-        run: emacs --script build-site.el
+        run: emacs -Q --script build-site.el
 
       - name: Build with Hugo
         env:
