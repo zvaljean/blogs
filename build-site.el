@@ -1,6 +1,7 @@
 :;exec emacs --quick --script   "$0" 
 
-(defconst zv-hugo-base-dir "./")
+;; (defconst zv-hugo-base-dir "/home/valjean/workspace/notes/blogs/")
+(defconst zv-hugo-base-dir default-directory)
 (defconst content-org "./")
 
 (let ((static-dir (concat zv-hugo-base-dir "static/")))
