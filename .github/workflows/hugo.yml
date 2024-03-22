@@ -38,25 +38,19 @@ jobs:
           && sudo dpkg -i ${{ runner.temp }}/hugo.deb
       - name: Checkout
         uses: actions/checkout@v4
-
-      - name: Debug-Pwd-1
-        run: pwd
-
-      - name: Setup Pages
-        id: pages
-        uses: actions/configure-pages@v4
         with:
           submodules: true
           fetch-depth: 0
+
+      # - name: Setup Pages
+      #   id: pages
+      #   uses: actions/configure-pages@v4
 
       - name: Install Emacs
         run: sudo apt install emacs-nox --yes
 
       - name: Convert Org to Markdown
         run: emacs -Q --script build-site.el
-
-      - name: Debug-Pwd-2
-        run: pwd
 
       - name: Build with Hugo
         env:
@@ -65,7 +59,8 @@ jobs:
         run: |
           hugo \
             --minify \
-            --baseURL "${{ steps.pages.outputs.base_url }}/"
+            --baseURL 'https://zvaljean.github.io/'
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
