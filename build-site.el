@@ -14,6 +14,8 @@
 ;; 			("melpa" . "http://mirrors.ustc.edu.cn/elpa/melpa/") 
 ;; 			("nongnu" . "http://mirrors.ustc.edu.cn/elpa/nongnu/")))
 
+(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
+
 (package-initialize)
 (unless package-archive-contents
 	(package-refresh-contents))
