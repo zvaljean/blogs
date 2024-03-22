@@ -18,6 +18,7 @@ enableEmoji = true
 ignoreErrors = ["error-remote-getjson", "error-missing-instagram-accesstoken"]
 theme = ["LoveIt"]
 themesDir="/data/workspace/docs/theme"
+publishDir="webSite"
 
 [author]
   name = "valjean"

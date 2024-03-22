@@ -1,7 +1,12 @@
 *
 !build-site.el
+!build.sh
 !.gitignore
 !.dir-locals.el
+
+!.github/
+!.github/**
+
 !content-org/
 !content-org/**
 content-org/**/*.~undo-tree~
