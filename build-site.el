@@ -2,7 +2,7 @@
 
 ;; (defconst zv-hugo-base-dir "/home/valjean/workspace/notes/blogs/")
 (defconst zv-hugo-base-dir default-directory)
-(defconst content-org "./")
+(defconst content-org "./content-org")
 
 (let ((static-dir (concat zv-hugo-base-dir "static/")))
   (make-directory static-dir :parents))
@@ -54,9 +54,12 @@ Exclude hidden directories and files, as well as entries containing '/.'."
 (defun publish-all()
   (message "Publishing from emacs...")
   (dolist (elt (find-org-file-recursively content-org org-pattern))
-    (find-file elt)
+
+	;; (message "---> %s" elt)
+	(with-current-buffer (find-file-noselect elt)
     ;; (org-babel-execute-buffer t)
-    (org-hugo-export-wim-to-md t)
+    (org-hugo-export-wim-to-md))
+	
     (message (format "Exported from %s" elt)))
   (message "Finished exporting to markdown"))
 

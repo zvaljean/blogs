@@ -1,0 +1,211 @@
+:PROPERTIES:
+:ID:       b1795a25-7563-44bc-abc8-f74b8907c4a4
+:END:
+#+title: kde-plasma
+#+date: [2024-03-23 Sat]
+#+author: valjean
+#+filetags: :kde:blog:
+#+category: linux 
+#+hugo_categories: linux 
+#+hugo_section: ./posts/
+#+hugo_weight: 1711191370
+#+hugo_auto_set_lastmod: t
+#+hugo_tags: kde-plasma
+#+hugo_draft: true
+
+将linux(manjaro)作为自己的开发环境, 有些年头了, 一直使用gnome的桌面环境.
+前阵子, 几次更新后, 使用emacs, idea的时候,会不定时的出现卡顿, 需要按下Meta键才能恢复.
+比较烦人, 又等了更新几次后, 依然没见好转. 也没找到好的修复方式,再加上好久安装系统了.
+总觉得硬盘上杂七杂八的东西太多了, 所以有了这次的重装系统.
+
+还是选的manjaro,只是做完启动盘后,想着换个桌面环境试试,kde plasma 搞起.  
+从结果上来说,出乎意料的满意. 其配置界面很友好,基本通过自带的工具就可更改,而且还能导出相关配置. 
+特别是 *dolphin* 文件管理工具, 超乎想象. 
+
+下面简单的记录下牵涉到的配置
+
+* dot-config 
+*dot-config* 仓库维护着,一些常用的配置项. 这里推荐使用 [[https://www.gnu.org/software/stow/manual/stow.html][stow]] 来初始化环境,很便捷. 
+#+begin_quote
+- vim
+- emacs.d
+- oh-my-zsh
+- ssh
+- pass
+#+end_quote
+* ui
+有些小的改动,暂时没有记录.
+- 去掉所有窗口的title bar
+  #+DOWNLOADED: screenshot @ 2024-03-23 22:14:05
+  #+attr_html: :width 40% :align center
+  #+attr_org: :width 100px
+  #+caption: title bar
+    [[file:images/20240323-221405_screenshot.png]]
+
+- task swither
+  切换应用的效果,改的紧凑些
+  #+DOWNLOADED: screenshot @ 2024-03-23 22:14:48
+  #+attr_html: :width 40% :align center
+  #+attr_org: :width 100px
+  #+caption: title bar
+  [[file:images/20240323-221448_screenshot.png]]
+
+* shortcut
+kde 指定的应用快捷方式,有些应用会多次打开,比如终端. 
+使用 *wmctrl* *gtk-launch* 可以避免该情况. 
+注意 gtk-launch 的参数,是桌面文件(its desktop file name)
+
+#+begin_src shell
+  #!/usr/bin/env bash
+    __app_name="$1"
+    __launch_name="$2"
+    __result=`/bin/wmctrl -x -a $__app_name`
+    # Launch an application (specified by its desktop file name),
+    [[ $? -ne 0  ]] && `/bin/gtk-launch $__launch_name`
+#+end_src
+
+#+DOWNLOADED: screenshot @ 2024-03-23 22:12:37
+#+attr_html: :width 40% :align center
+#+attr_org: :width 100px
+#+caption: 20240323-221237_screenshot.png
+[[file:images/20240323-221237_screenshot.png]]
+
+* optimize
+** dolphin smb
+- *nautilus* 直接将smb挂在到 gvfs目录下,挂载点固定.  所以可以在终端下进行一些操作. 
+    #+begin_quote
+     /run/user/1000/gvfs/smb-share:server=10.0.0.241,share=nas_ssd_docker/
+    #+end_quote
+- *dolphin* 挂载到 *kio-fuse-**, 每次重启后挂在点会变,不太方便终端操作. 
+    #+begin_quote
+     /run/user/1000/kio-fuse-eOvxHL/smb/data@_gateway/
+    #+end_quote
+- 可以通过以下几种方式获取挂在点
+  - [[https://askubuntu.com/questions/754091/what-is-the-difference-between-etc-fstab-and-etc-mtab][/etc/mtab]]
+  #+begin_src shell
+    findmnt -m | rg kio-fuse | cut -d ' ' -f1
+    cat /proc/self/mounts | rg kio-fuse | cut -d ' ' -f2
+    cat /etc/mtab | rg kio-fuse | cut -d ' ' -f2
+  #+end_src
+- kioclient 直接播放视频
+
+  kioclient 直接打开m3u后缀,会找不到正确的应用打开. 
+  按照如下操作,增加一个 *MIME-type*, 之后执行 kioclient 命令,即可.  
+
+  #+begin_src shell
+   kioclient exec smb://nas@nas.lan/nce-2.m3u
+  #+end_src
+   #+DOWNLOADED: screenshot @ 2024-03-23 18:35:14
+   #+attr_html: :width 40% :align center
+   #+attr_org: :width 80px
+   [[file:images/20240323-183514_screenshot.png]]
+
+  cat ~/.config/mimeapps.list
+
+** display time
+系统设置的英文,时区设置的上海,显示时间跟着时区走了,没问题. 
+但是终端 *ls* 命令后,时间显示的是中文,看着很别扭.
+在 *~/.config/plasma-localerc* 中添加 _LC_TIME=en_US.UTF-8*  ,重启即可.
+#+begin_src conf
+
+  [Formats]
+  LANG=en_US.UTF-8
+  LC_TIME=en_US.UTF-8
+  LC_MONETARY=zh_CN.UTF-8
+  LC_NUMERIC=zh_CN.UTF-8
+  LC_TELEPHONE=zh_CN.UTF-8
+#+end_src
+** gnupg
+- gpg: WARNING: unsafe permissions on homedir 
+  按照如下修复 [[https://gist.github.com/oseme-techguy/bae2e309c084d93b75a9b25f49718f85][fix-url]] 
+    #+begin_src conf
+    chown -R $(whoami) ~/.gnupg
+    chmod 700 ~/.gnupg
+    chmod 600 ~/.gnupg/*
+    chmod 700 ~/.gnupg/*.d
+    #+end_src
+- gpg: error Inappropriate ioctl for device
+  - [[https://emacs.stackexchange.com/questions/64578/emacs-pinentry-not-working-on-emacs-28-0-50-and-ubuntu-20-04][fix-url]]
+  - [[https://www.gnu.org/software/emacs/manual/html_node/epa/GnuPG-Pinentry.html][GnuPg-Pinentry]]
+  - ~/.gnupg/gpg.conf
+    #+begin_src conf
+        use-agent 
+        # pinentry-mode loopback
+    #+end_src
+  - ~/.gnupg/gpg-agent.conf
+    #+begin_src conf
+        allow-emacs-pinentry
+        allow-loopback-pinentry
+        # pinentry-program /usr/bin/pinentry-pt
+    #+end_src
+    #+caption: gpg-agent 
+    #+DOWNLOADED: screenshot @ 2024-03-23 21:21:16
+    #+attr_html: :width 40% :height 20% :align center
+    #+attr_org: :width 100px :width 100px
+    [[file:images/20240323-212116_screenshot.png]]
+
+** nvidia
+- vlc 无法播放,telegram 播放视频直接crash 在[[https://forum.manjaro.org/t/libva-error-vagetdrivernames-failed-with-unknown-libva-error/150303/13][这里]]找到一些提示,目前修复
+  #+begin_src shell
+    # 先卸载
+    yay -S libva-nvidia-driver
+    # 再安装
+    sudo pacman -R libva-vdpau-driver
+  #+end_src
+#+DOWNLOADED: screenshot @ 2024-03-23 08:17:20
+#+attr_html: :width 50% :align center
+#+attr_org: :width 100px
+[[file:images/20240323-081720_screenshot.png]]
+** task switcher
+总觉得在切换应用间,有些迟钝,按以下方法进行修改
+- https://mitchellroe.dev/alt-tab-popup-delay-in-kde.html
+- https://zren.github.io/kde/#show-alt-tab-popup-as-fast-as-possible
+#+begin_src shell
+  kwriteconfig5 --file ~/.config/kwinrc --group TabBox --key DelayTime 0
+  qdbus org.kde.KWin /KWin reconfigure
+#+end_src
+* software
+常用软件的一些安装, 基本通过 pacmam yay 安装即可
+稍有一些的需要额外配置, 其子项是相关依赖包或者说明. 
+#+begin_quote
+    - emacs 
+    - mpv
+    - gnupg
+    - stow
+    - gvim
+    - ctags
+    - 建议安装gvim,包含clipboard特性,可以与系统粘贴板互通
+    - xranger 
+    - zip & unzip
+    - sdkman 
+    - thunderbird
+    - google-chrome
+    - alacritty
+    - pass
+    - xclip
+    - flameshot
+    - tmux
+    - tmuxinator
+    - tpm
+    - telegram-desktop 
+    - tty-clock
+    - pkg-config
+    - make
+    - cmake
+    - fd
+    - ripgrep
+    - zathura
+    - fzf
+    - pipx
+    - mitmproxy
+    - oh-my-zsh
+    - pygmentize
+    - fonts
+    - yay -S ttf-jetbrains-mono ttf-jetbrains-mono-nerd   
+#+end_quote
+* issue
+** TODO google-chrome 
+~Ctrl+a~, ~ctrl+e~ 尽然不是跳到头和尾的操作.  ~ctrl+k~ 直接进搜索了.  *目前无解*
+以下方法不生效:
+- [[https://www.reddit.com/r/emacs/comments/c22ff1/gtk_4_support_for_key_themes_does_not_affect/][gtk-key-theme-emacs]]
+- ~/.config/gtk-3.0/settings.ini

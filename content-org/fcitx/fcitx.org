@@ -1,27 +1,25 @@
 :PROPERTIES:
 :ID:       064c2499-c4e5-4466-a087-77bd44248ff1
 :END:
-#+hugo_section: ./posts/
 #+title: fcitx & rime
-#+filetags: :rime:fcitx5:blog:
-#+category: linux
-#+PRIORITIES: A D B 
 #+date: [2024-03-22 Fri]
 #+author: valjean
+#+filetags: :rime:fcitx5:blog:
+#+category: linux 
+#+hugo_categories: linux 
+#+hugo_tags: fcitx5 rime
+#+hugo_section: ./posts/
 #+hugo_weight: 685
 #+hugo_auto_set_lastmod: t
-#+hugo_tags: :rime:fcitx5:blog:
-#+hugo_categories: linux 
-#+hugo_menu: :menu "main" :weight 68
-#+hugo_custom_front_matter: 
 #+hugo_draft: false
 
-* fcitx5 :fcitx5:
+* fcitx5 
 ** docs
 - https://wiki.archlinux.org/title/Fcitx5
 - https://fcitx-im.org/wiki/Fcitx_5/zh-cn
 - https://github.com/rime/home/wiki/RimeWithSchemata#rime-with-schemata
-- https://blog.allwens.work/useFcitx5 :: 该文章讲的很详细
+- https://blog.allwens.work/useFcitx5
+- https://jeffreytse.net/computer/2020/11/19/how-to-use-fcitx5-elegantly-on-arch-linux.html
 ** install
 - *卸载* 原有的fcitx包
   #+begin_src shell
@@ -65,7 +63,7 @@ iphone自带的输入法也有类似的功能。
 #+attr_html: :width 50% :align center
 #+attr_org: :width 100px
 [[file:images/20240320-222530_screenshot.png]]
-* rime :rime:idea:
+* rime 
 ** docs
   - https://github.com/rime/plum
   - https://github.com/rime/home/wiki

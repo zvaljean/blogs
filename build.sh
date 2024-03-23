@@ -2,4 +2,4 @@
 
 emacs -Q --script build-site.el
 
-Hugo 
+hugo -D --cleanDestinationDir=true server 
