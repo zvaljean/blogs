@@ -11,7 +11,7 @@
 #+hugo_weight: 1711191370
 #+hugo_auto_set_lastmod: t
 #+hugo_tags: kde-plasma
-#+hugo_draft: true
+#+hugo_draft: false
 
 将linux(manjaro)作为自己的开发环境, 有些年头了, 一直使用gnome的桌面环境.
 前阵子, 几次更新后, 使用emacs, idea的时候,会不定时的出现卡顿, 需要按下Meta键才能恢复.
