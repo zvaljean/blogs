@@ -20,3 +20,4 @@ layouts/**/*.~undo-tree~
 
 
 !config.toml
+!Makefile
