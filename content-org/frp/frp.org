@@ -1,0 +1,99 @@
+:PROPERTIES:
+:ID:       2a0ea179-d1eb-4976-87b0-c8e96377550d
+:END:
+#+title: frp
+#+date: [2024-04-18 Thu]
+#+author: valjean
+#+filetags: blog
+#+category: 
+#+hugo_section: ./posts/
+#+hugo_weight: 1713414015
+#+hugo_auto_set_lastmod: t
+#+hugo_tags: frp
+#+hugo_categories: frp
+#+hugo_draft: false
+
+* resource
+- [[https://gofrp.org/zh-cn/docs/][官方文档]]
+- [[https://github.com/zvaljean/tools-gofrps-config][frp一些简单的配置]]
+
+* stcp
+将本地的ssh服务映射出去的话，适合用这种类型的。安全系数更高。
+
+** proxy
+#+begin_src conf
+    [[proxies]]
+    name = "ssh-a"
+    type = "stcp"
+    secretKey = "{{ .Envs.FRP_VISTOR_KEY }}"
+    localIP = "127.0.0.1"
+    localPort = 22
+    # If not empty, only visitors from specified users can connect.
+    # Otherwise, visitors from same user can connect. '*' means allow all users.
+    # allowUsers = ["*"]
+#+end_src
+
+** vistor
+- *name*, *serverName*, *secretKey* 三者要与proxy对应
+ #+begin_src conf
+    [[visitors]]
+    name = "ssh-a"
+    type = "stcp"
+    serverName = "ssh-a"
+    secretKey = "{{ .Envs.FRP_VISTOR_KEY }}"
+    bindAddr = "127.0.0.1"
+    bindPort = 5000
+ #serverUser = "user"
+ #+end_src
+- ssh 的话，可以在 ~/.ssh/config 中添加如下配置，方便访问
+  #+begin_src conf
+    Host fp-xx
+      HostName 127.0.0.1
+      Port 5000 
+      User root
+      ServerAliveInterval 60
+      StrictHostKeyChecking no
+      # 需要被穿透的机器
+      #IdentityFile  ~/.ssh/public.key
+  #+end_src
+* tcp
+将本地的一些服务映射出去的话，适合这种的类型。像数据库之类的，其本身带了权限验证。
+** proxy
+- url: {frps.addr} + {remotePort}
+#+begin_src conf
+  [[proxies]]
+  name = "mysql-service"
+  type = "tcp"
+  localIP = "127.0.0.1"
+  localPort = 3306
+  remotePort = 13306
+#+end_src
+* http
+- http 服务
+  这里的访问地址是proxy配置中的 *subdomain* + {frp server}中的 *subDomainHost* + {frp server} 中的 *vhostHTTPPort*
+  域名访问可能会转的备案页面.
+  #+begin_src conf
+   [[proxies]]
+   name = "test"
+   type = "http"
+   localIP = "127.0.0.1"
+   localPort = 7000
+   subdomain = "test-"
+   locations = ["/", "/ng_check"]
+    #+end_src
+- static files
+  提供简单的用户名、密码校验
+  #+begin_src conf
+    [[proxies]]
+    name = "static-file"
+    type = "tcp"
+    remotePort = 7104
+    [proxies.plugin]
+    type = "static_file"
+    # 本地文件目录，对外提供访问
+    localPath = "/data/workspace/web/docs"
+    # URL 中的前缀，将被去除，保留的内容即为要访问的文件路径
+    stripPrefix = "blog"
+    httpUser = "abc"
+    httpPassword = "abc"
+  #+end_src

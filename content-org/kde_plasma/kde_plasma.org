@@ -70,6 +70,12 @@ kde 指定的应用快捷方式,有些应用会多次打开,比如终端.
 #+caption: 20240323-221237_screenshot.png
 [[file:images/20240323-221237_screenshot.png]]
 
+** COMMENT new 
+- atl+cmd+arrow 
+    #+DOWNLOADED: screenshot @ 2024-04-03 07:15:22
+    #+attr_html: :width 50% :align center
+    #+attr_org: :width 100px
+    [[file:images/20240403-071522_screenshot.png]]
 * optimize
 ** dolphin smb
 - *nautilus* 直接将smb挂在到 gvfs目录下,挂载点固定.  所以可以在终端下进行一些操作. 
@@ -100,7 +106,8 @@ kde 指定的应用快捷方式,有些应用会多次打开,比如终端.
    #+attr_org: :width 80px
    [[file:images/20240323-183514_screenshot.png]]
 
-  cat ~/.config/mimeapps.list
+   - 或者直接修改这个文件 [[https://bugs.kde.org/show_bug.cgi?id=442721][edit file]]
+    cat ~/.config/mimeapps.list
 
 ** display time
 系统设置的英文,时区设置的上海,显示时间跟着时区走了,没问题. 
@@ -164,6 +171,13 @@ kde 指定的应用快捷方式,有些应用会多次打开,比如终端.
   kwriteconfig5 --file ~/.config/kwinrc --group TabBox --key DelayTime 0
   qdbus org.kde.KWin /KWin reconfigure
 #+end_src
+** kde-wallet
+- https://wiki.archlinux.org/title/KDE_Wallet
+- https://www.systutorials.com/docs/linux/man/1-kwalletcli/
+  #+begin_src shell
+    # ~/.local/share/kwalletd
+    kwallet-query -f 'tools' kdewallet -r test
+  #+end_src
 * software
 常用软件的一些安装, 基本通过 pacmam yay 安装即可
 稍有一些的需要额外配置, 其子项是相关依赖包或者说明. 
@@ -209,3 +223,18 @@ kde 指定的应用快捷方式,有些应用会多次打开,比如终端.
 以下方法不生效:
 - [[https://www.reddit.com/r/emacs/comments/c22ff1/gtk_4_support_for_key_themes_does_not_affect/][gtk-key-theme-emacs]]
 - ~/.config/gtk-3.0/settings.ini
+** In the kde plasma environment, the full screen of the mpv will affect other applications
+- https://www.reddit.com/r/mpv/comments/nogwsi/question_on_full_screen_why_do_desktop_effects/
+- adjust kwin config
+    #+DOWNLOADED: screenshot @ 2024-04-04 11:12:21
+    #+attr_html: :width 50% :align center
+    #+attr_org: :width 100px
+    [[file:images/20240404-111221_screenshot.png]]
+- adjust mpv config
+  - https://mpv.io/manual/master/#options-x11-bypass-compositor
+    #+begin_src conf
+        x11-bypass-compositor=no
+    #+end_src
+
+
+
