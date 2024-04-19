@@ -5,12 +5,11 @@
 #+date: [2024-04-18 Thu]
 #+author: valjean
 #+filetags: blog
-#+category: 
+#+category: tools
 #+hugo_section: ./posts/
-#+hugo_weight: 1713414015
 #+hugo_auto_set_lastmod: t
 #+hugo_tags: frp
-#+hugo_categories: frp
+#+hugo_categories: linux tools
 #+hugo_draft: false
 
 * resource

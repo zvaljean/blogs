@@ -8,7 +8,6 @@
 #+category: linux 
 #+hugo_categories: linux 
 #+hugo_section: ./posts/
-#+hugo_weight: 1711191370
 #+hugo_auto_set_lastmod: t
 #+hugo_tags: kde-plasma
 #+hugo_draft: false

@@ -9,7 +9,6 @@
 #+hugo_categories: linux 
 #+hugo_tags: fcitx5 rime
 #+hugo_section: ./posts/
-#+hugo_weight: 685
 #+hugo_auto_set_lastmod: t
 #+hugo_draft: false
 
