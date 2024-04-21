@@ -172,11 +172,27 @@ kde 指定的应用快捷方式,有些应用会多次打开,比如终端.
 #+end_src
 ** kde-wallet
 - https://wiki.archlinux.org/title/KDE_Wallet
-- https://www.systutorials.com/docs/linux/man/1-kwalletcli/
+- https://man.archlinux.org/man/extra/kwallet/kwallet-query.1.en
   #+begin_src shell
     # ~/.local/share/kwalletd
     kwallet-query -f 'tools' kdewallet -r test
   #+end_src
+** copy popup
+在浏览器中，复制完地址后，会有个操作提示弹出。
+可以在粘贴板的配置处修改.
+
+#+DOWNLOADED: screenshot @ 2024-04-20 09:48:50
+#+attr_html: :width 50% :align center
+#+attr_org: :width 100px
+[[file:images/20240420-094850_screenshot.png]]
+
+
+#+DOWNLOADED: screenshot @ 2024-04-20 09:49:30
+#+attr_html: :width 50% :align center
+#+attr_org: :width 100px
+[[file:images/20240420-094930_screenshot.png]]
+
+
 * software
 常用软件的一些安装, 基本通过 pacmam yay 安装即可
 稍有一些的需要额外配置, 其子项是相关依赖包或者说明. 
@@ -234,6 +250,3 @@ kde 指定的应用快捷方式,有些应用会多次打开,比如终端.
     #+begin_src conf
         x11-bypass-compositor=no
     #+end_src
-
-
-
