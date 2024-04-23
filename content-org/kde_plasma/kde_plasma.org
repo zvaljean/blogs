@@ -191,8 +191,11 @@ kde 指定的应用快捷方式,有些应用会多次打开,比如终端.
 #+attr_html: :width 50% :align center
 #+attr_org: :width 100px
 [[file:images/20240420-094930_screenshot.png]]
-
-
+** desktop-share
+- krfb
+- krdc :: https://docs.kde.org/trunk5/en/krdc/krdc/introduction.html
+- https://zhuanlan.zhihu.com/p/476523328
+- https://opensource.com/article/22/2/screen-share-linux-kde
 * software
 常用软件的一些安装, 基本通过 pacmam yay 安装即可
 稍有一些的需要额外配置, 其子项是相关依赖包或者说明. 
