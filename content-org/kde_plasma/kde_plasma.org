@@ -111,7 +111,7 @@ kde 指定的应用快捷方式,有些应用会多次打开,比如终端.
 ** display time
 系统设置的英文,时区设置的上海,显示时间跟着时区走了,没问题. 
 但是终端 *ls* 命令后,时间显示的是中文,看着很别扭.
-在 *~/.config/plasma-localerc* 中添加 _LC_TIME=en_US.UTF-8*  ,重启即可.
+在 *~/.config/plasma-localerc* 中添加 _LC_TIME=en_US.UTF-8_  ,重启即可.
 #+begin_src conf
 
   [Formats]
