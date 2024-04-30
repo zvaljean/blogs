@@ -199,6 +199,7 @@ kde 指定的应用快捷方式,有些应用会多次打开,比如终端.
 * software
 常用软件的一些安装, 基本通过 pacmam yay 安装即可
 稍有一些的需要额外配置, 其子项是相关依赖包或者说明. 
+** basic
 #+begin_quote
     - emacs 
     - mpv
@@ -235,6 +236,8 @@ kde 指定的应用快捷方式,有些应用会多次打开,比如终端.
     - fonts
     - yay -S ttf-jetbrains-mono ttf-jetbrains-mono-nerd   
 #+end_quote
+** chat
+- https://arch.icekylin.online/app/common/communication 
 * issue
 ** TODO google-chrome 
 ~Ctrl+a~, ~ctrl+e~ 尽然不是跳到头和尾的操作.  ~ctrl+k~ 直接进搜索了.  *目前无解*
