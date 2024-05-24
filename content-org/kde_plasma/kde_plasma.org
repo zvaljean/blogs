@@ -238,6 +238,8 @@ kde 指定的应用快捷方式,有些应用会多次打开,比如终端.
 #+end_quote
 ** chat
 - https://arch.icekylin.online/app/common/communication 
+- https://linux.cn/article-15590-1.html
+- https://im.qq.com/linuxqq/index.shtml
 * issue
 ** TODO google-chrome 
 ~Ctrl+a~, ~ctrl+e~ 尽然不是跳到头和尾的操作.  ~ctrl+k~ 直接进搜索了.  *目前无解*
