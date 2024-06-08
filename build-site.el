@@ -14,8 +14,13 @@
 ;; (setq package-archives '(("gnu" . "http://mirrors.ustc.edu.cn/elpa/gnu/") 
 ;; 			("melpa" . "http://mirrors.ustc.edu.cn/elpa/melpa/") 
 ;; 			("nongnu" . "http://mirrors.ustc.edu.cn/elpa/nongnu/")))
-
-(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
+(setq package-archives
+      '(("gnu" . "https://elpa.gnu.org/packages/")
+        ("gnu-devel" . "https://elpa.gnu.org/devel/")
+        ("nongnu" . "https://elpa.nongnu.org/nongnu/")
+        ("melpa" . "https://melpa.org/packages/")))
+;;; 
+;; (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
 
 (package-initialize)
 (unless package-archive-contents
