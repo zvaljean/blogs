@@ -22,6 +22,7 @@
 ;;; 
 ;; (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
 ;;; (setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3")
+;;; https://emacs.stackexchange.com/questions/233/how-to-proceed-on-package-el-signature-check-failure
 (setq package-check-signature nil) 
 
 (package-initialize)
