@@ -42,6 +42,13 @@ jobs:
           submodules: true
           fetch-depth: 0
 
+      - name: Checkout theme  repo
+        uses: actions/checkout@v4
+        with:
+          repository: dillonzq/LoveIt
+          path: themes/
+          ref: e9e89a4613baee823596822b7d246f5931263491
+
       - name: Setup Pages
         id: pages
         uses: actions/configure-pages@v4

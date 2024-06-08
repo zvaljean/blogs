@@ -18,8 +18,8 @@ enableEmoji = true
 ignoreErrors = ["error-remote-getjson", "error-missing-instagram-accesstoken"]
 theme = ["LoveIt"]
   # e9e89a4613baee823596822b7d246f5931263491 themes/LoveIt https://github.com/dillonzq/LoveIt.git
-  themesDir="/data/repo/themes/"
-# publishDir="webSite"
+  # themesDir="/data/repo/themes/"
+  # publishDir="webSite"
 
 [author]
   name = "valjean"
