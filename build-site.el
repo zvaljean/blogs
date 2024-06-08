@@ -11,17 +11,13 @@
 ;; Install packages
 (require 'package)
 
-;; (setq package-archives '(("gnu" . "http://mirrors.ustc.edu.cn/elpa/gnu/") 
-;; 			("melpa" . "http://mirrors.ustc.edu.cn/elpa/melpa/") 
-;; 			("nongnu" . "http://mirrors.ustc.edu.cn/elpa/nongnu/")))
-(setq package-archives
-      '(("gnu" . "https://elpa.gnu.org/packages/")
-        ("gnu-devel" . "https://elpa.gnu.org/devel/")
-        ("nongnu" . "https://elpa.nongnu.org/nongnu/")
-        ("melpa" . "https://melpa.org/packages/")))
+;; (setq package-archives
+;;       '(("gnu" . "https://elpa.gnu.org/packages/")
+;;         ("gnu-devel" . "https://elpa.gnu.org/devel/")
+;;         ("nongnu" . "https://elpa.nongnu.org/nongnu/")
+;;         ("melpa" . "https://melpa.org/packages/")))
 ;;; 
-;; (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
-;;; (setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3")
+(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
 ;;; https://emacs.stackexchange.com/questions/233/how-to-proceed-on-package-el-signature-check-failure
 (setq package-check-signature nil) 
 
