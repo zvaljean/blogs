@@ -7,7 +7,7 @@ org-2-md:
 	emacs -Q --script build-site.el
 
 start-hugo: 
-	hugo -D --cleanDestinationDir=true server 
+	hugo -D --cleanDestinationDir=true --themesDir=/data/repo/themes server 
 
 clear: 
 	rm -rf ./public/
