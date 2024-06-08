@@ -32,6 +32,7 @@
 (require 'org)
 (require 'ox-hugo)
 (require 'find-lisp)
+(require 'tomelr)
 
 
 (progn
