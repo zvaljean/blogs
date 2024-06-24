@@ -62,7 +62,9 @@
 - issue
   - /usr/lib/ddns/update_cloudflare_com_v4.sh
     安照上述配置后，若是请求还报错，在openwrt中查看具体的日志。如： *Invalid format for X-Auth-Key header*,
-    根据具体情况处理。我遇到的错误是需要在openwrt上修改其脚本，设置zone_id变量,zone_id有上面的api获得, 如下图。
+    根据具体情况处理。我遇到的错误是需要在openwrt上修改其脚本，设置zone_id变量, zone_id由上面的api获得.
+
+    修改如下图。
     #+DOWNLOADED: screenshot @ 2024-06-24 18:37:44
     #+attr_html: :width 50% :align center
     #+attr_org: :width 100px
