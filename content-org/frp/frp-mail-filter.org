@@ -1,0 +1,100 @@
+#+title: frp-mail-filter 
+#+date: [2024-06-24 Mon]
+#+author: valjean
+#+filetags: blog
+#+category: tools
+#+hugo_section: ./posts/
+#+hugo_auto_set_lastmod: t
+#+hugo_tags: frp mail-filter
+#+hugo_categories: linux tools
+#+hugo_draft: false
+
+配置frp服务后，利用stcp的模式将ssh服务暴露到公网中。虽然，链接时需要secretKey和对应的密钥
+增强了安全性。但是大部分情况下，并不需要在宿主机上启动frpc服务。所以想到是否能通过某种机制，
+可以远程起、停frpc服务。
+
+最终选择了邮件过滤器，当发送特定主题的邮件,执行某一类的操作。主要实现了frpc服务的启动、停止操作。
+
+
+* software
+  软件的版本如下
+- Thunderbird - 115.12.1 (64-bit)
+- [[https://github.com/RealRaven2000/FiltaQuilla][filtaquilla(4.0)]]
+- [[https://github.com/fatedier/frp][frp (0.57.0)]]
+
+* config
+** frpc
+  这里需要注意将frpc配置成用户服务，这样在脚本中启动、停止服务时，不需要输入密码
+  将服务脚本放置在 /usr/lib/systemd/user/frpc.service 即可。
+  - status
+    #+begin_src shell
+     systemctl --user status frpc.service 
+    #+end_src
+  - start
+    #+begin_src shell
+     systemctl --user start frpc.service 
+    #+end_src
+  - stop
+    #+begin_src shell
+     systemctl --user stop frpc.service 
+    #+end_src
+** FiltaQuilla
+- install
+  在 Thunderbird 插件管理里，直接搜索安装即可
+- config
+  - SUBJECT， 主题可以当作参数传给脚本,其他参数参考[[https://quickfilters.quickfolders.org/filtaquilla.html#run_file][docs]]
+  - 这里的规则可以根据自己的需要配置
+  - *Run Program* : /hom/xx/mail-filter-frp.sh,@SUBJECT@,@MESSAGEID@
+    还有一个类似的action *Launch File* ，这个不接收参数,每个平台的实现不一样，我在测试中，是用默认编辑器打开的该文件。
+
+    #+DOWNLOADED: screenshot @ 2024-06-24 17:15:21
+    #+attr_html: :width 50% :align center
+    #+attr_org: :width 100px
+    [[file:images/20240624-171521_screenshot.png]]
+
+- shell scrips
+
+  #+begin_src shell
+        #!/usr/bin/env bash
+    # mail-filter-frp.sh
+    SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+    cd $SCRIPT_DIR
+
+    __log_name=/tmp/mail.log
+
+    exec 1>$__log_name 2>&1
+
+    # 按需更改
+    __frp_start="start-xxx"
+
+    # 按需更改
+    __frp_stop="stop-xxx"
+
+    echo $(date +%F-%s)
+
+    __subject=$1
+
+    if [[ -z "$1" ]]; then
+        echo "mail subject empty, exit"
+        exit 0
+    fi
+
+    if echo "$__subject" | grep -q "$__frp_start"; then
+        echo "start frp service"
+        systemctl start frpc.service  --user
+        exit 0;
+    fi
+
+    if echo "$__subject" | grep -q "$__frp_stop"; then
+        echo "stop frp service"
+        systemctl stop frpc.service  --user
+        exit 0;
+    fi
+
+  #+end_src
+
+* docs
+- [[https://superuser.com/questions/407424/execute-a-terminal-command-based-on-receiving-an-email-in-thunderbird-on-a-mac][tutor-1]]
+- [[https://quickfilters.quickfolders.org/filtaquilla.html#run_file][filtaquilla]]
+- [[https://addons.thunderbird.net/en-US/thunderbird/addon/filtaquilla/][addons filtaquilla]]
+
