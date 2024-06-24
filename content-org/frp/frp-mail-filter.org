@@ -10,11 +10,12 @@
 #+hugo_draft: false
 
 配置frp服务后，利用stcp的模式将ssh服务暴露到公网中。虽然，链接时需要secretKey和对应的密钥
+
 增强了安全性。但是大部分情况下，并不需要在宿主机上启动frpc服务。所以想到是否能通过某种机制，
+
 可以远程起、停frpc服务。
 
 最终选择了邮件过滤器，当发送特定主题的邮件,执行某一类的操作。主要实现了frpc服务的启动、停止操作。
-
 
 * software
   软件的版本如下
@@ -24,7 +25,8 @@
 
 * config
 ** frpc
-  这里需要注意将frpc配置成用户服务，这样在脚本中启动、停止服务时，不需要输入密码
+  这里需要注意将frpc配置成 *用户服务* ，这样在脚本中启动、停止服务时，不需要输入密码
+
   将服务脚本放置在 /usr/lib/systemd/user/frpc.service 即可。
   - status
     #+begin_src shell
@@ -40,10 +42,11 @@
     #+end_src
 ** FiltaQuilla
 - install
+
   在 Thunderbird 插件管理里，直接搜索安装即可
 - config
+  这里的规则可以根据自己的需要配置
   - SUBJECT， 主题可以当作参数传给脚本,其他参数参考[[https://quickfilters.quickfolders.org/filtaquilla.html#run_file][docs]]
-  - 这里的规则可以根据自己的需要配置
   - *Run Program* : /hom/xx/mail-filter-frp.sh,@SUBJECT@,@MESSAGEID@
     还有一个类似的action *Launch File* ，这个不接收参数,每个平台的实现不一样，我在测试中，是用默认编辑器打开的该文件。
 
