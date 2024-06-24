@@ -1,3 +1,6 @@
+:PROPERTIES:
+:ID:       e7bc5920-6046-4f2e-966c-485f4dd48e58
+:END:
 #+title: frp-mail-filter 
 #+date: [2024-06-24 Mon]
 #+author: valjean

@@ -1,0 +1,80 @@
+:PROPERTIES:
+:ID:       2daacc68-5ff0-4e74-b5c0-d86599f6b487
+:END:
+#+title: ddns
+#+date: [2024-06-24 Mon]
+#+author: valjean
+#+filetags: ddns
+#+category: tools
+#+hugo_section: ./posts/
+#+hugo_auto_set_lastmod: t
+#+hugo_tags: ddns
+#+hugo_categories: linux tools
+#+hugo_draft: false
+
+* cloudflare 
+** config zone-key
+具体配置可以参考如下链接
+- https://blog.crstian.me/en/post/2022-01-19-openwrt-ddns/
+  #+DOWNLOADED: screenshot @ 2024-06-24 18:46:22
+  #+attr_html: :width 50% :align center
+  #+attr_org: :width 100px
+  [[file:images/20240624-184622_screenshot.png]]
+
+** api
+[[https://blog.toright.com/posts/7333/cloudflare-ddns][api tutor]] 这篇教程详细介绍了cloudflare有关域名相关api。有了这个背景，就方便调试openwrt 的ddns服务了。
+其原理就是，先根据api查询域名对应的记录。之后在发现ip变更后，更新该域名对应的记录即可。
+*** zone key
+  #+begin_src shell
+    curl -X GET "https://api.cloudflare.com/client/v4/user/tokens/verify" \
+     -H "Authorization: Bearer -zone key-" \
+     -H "Content-Type:application/json"
+  #+end_src
+*** ZoneID
+  #+begin_src shell
+    curl -X GET "https://api.cloudflare.com/client/v4/zones" \
+        -H "Authorization: Bearer -zone key-" \
+        -H "Content-Type:application/json"
+  #+end_src
+*** RecordID
+  - -RecordID-
+  #+begin_src shell
+    curl -s -X GET "https://api.cloudflare.com/client/v4/zones/-zoneId-/dns_records" \
+        -H "Authorization: Bearer -zone key-" \
+        -H "Content-Type:application/json"  | jq '.'
+  #+end_src
+*** update record
+  #+begin_src shell
+    curl -X PUT "https://api.cloudflare.com/client/v4/zones/-zoneId-/dns_records/-RecordID-" \
+        -H "Authorization: Bearer -zone key-" \
+        -H "Content-Type: application/json" \
+        --data '{"type":"A","name":"zv-ddns.haaqu1s.lol","content":"192.168.1.1","ttl":120,"proxied":false}'
+  #+end_src
+
+* openwrt config
+- config
+    按照下图配置即可， *用户名* (Bearer)、 *密码* (Zone-key)都是固定的填写方式。
+    看教程还有使用 *email* 和 *global-key*,(我自己测试没有成功)
+    #+DOWNLOADED: screenshot @ 2024-06-24 18:29:59
+    #+attr_html: :width 50% :align center
+    #+attr_org: :width 100px
+    [[file:images/20240624-182959_screenshot.png]]
+- issue
+  - /usr/lib/ddns/update_cloudflare_com_v4.sh
+    安照上述配置后，若是请求还报错，在openwrt中查看具体的日志。 *Invalid format for X-Auth-Key header*
+    根据具体情况处理。我遇到的错误是需要在openwrt上修改其脚本，设置zone_id变量,如下图。
+    #+DOWNLOADED: screenshot @ 2024-06-24 18:37:44
+    #+attr_html: :width 50% :align center
+    #+attr_org: :width 100px
+    [[file:images/20240624-183744_screenshot.png]]
+
+* docs
+- https://blog.hellowood.dev/posts/openwrt-ddns-配置%2f
+- https://keesenz.com/2020/1067.html
+- https://blog.crstian.me/en/post/2022-01-19-openwrt-ddns/
+- https://forum.openwrt.org/t/trying-cloudflare-ddns-on-21-02/102365
+- https://github.com/ddclient/ddclient/issues/262
+- https://stackoverflow.com/questions/46514412/traefik-lets-encrypt-cloudflare-6103-invalid-format-for-x-auth-key-header
+- https://alexskra.com/blog/dynamc-dnsddns-with-openwrt-and-cloudflare/
+- https://dynv6.com/zones/4178344/instructions
+
