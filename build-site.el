@@ -38,7 +38,7 @@
 (require 'find-lisp)
 (require 'tomelr)
 
-(setq org-id-locations-file (expand-file-name ".org-id-locations" user-emacs-directory))
+(setq org-id-locations-file (expand-file-name ".org-id-locations" default-directory))
 (unless (file-exists-p org-id-locations-file)
   (write-region "" nil org-id-locations-file))
 
