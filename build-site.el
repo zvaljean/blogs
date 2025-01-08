@@ -43,7 +43,9 @@
   (setq org-hugo-base-dir zv-hugo-base-dir)
   (setq org-pattern "\\.org$")
   ;; (setq org-id-track-globally t)
-  (org-id-locations-load))
+	  (setq org-id-locations nil)
+ ;; (org-id-locations-load)
+  )
 
 
 (defun find-org-file-recursively (directory pattern)
@@ -63,7 +65,6 @@ Exclude hidden directories and files, as well as entries containing '/.'."
 	;; (message "---> %s" elt)
 	(with-current-buffer (find-file-noselect elt)
     ;; (org-babel-execute-buffer t)
-	  (setq org-export-with-broken-links t)
     (org-hugo-export-wim-to-md))
 	
     (message (format "Exported from %s" elt)))
