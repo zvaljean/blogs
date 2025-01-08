@@ -38,14 +38,18 @@
 (require 'find-lisp)
 (require 'tomelr)
 
+(setq org-id-locations-file (expand-file-name ".org-id-locations" user-emacs-directory))
+(unless (file-exists-p org-id-locations-file)
+  (write-region "" nil org-id-locations-file))
+
+
 
 (progn
   (setq org-hugo-base-dir zv-hugo-base-dir)
   (setq org-pattern "\\.org$")
   ;; (setq org-id-track-globally t)
-	  (setq org-id-locations nil)
- ;; (org-id-locations-load)
-  )
+  ;;(setq org-id-locations nil)
+   (org-id-locations-load))
 
 
 (defun find-org-file-recursively (directory pattern)
