@@ -42,9 +42,9 @@
 (progn
   (setq org-hugo-base-dir zv-hugo-base-dir)
   (setq org-pattern "\\.org$")
+  (org-export-with-broken-links t)
   ;; (setq org-id-track-globally t)
-  ;;(org-id-locations-load)
-  )
+  (org-id-locations-load))
 
 
 (defun find-org-file-recursively (directory pattern)
