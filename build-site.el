@@ -43,7 +43,8 @@
   (setq org-hugo-base-dir zv-hugo-base-dir)
   (setq org-pattern "\\.org$")
   ;; (setq org-id-track-globally t)
-  (org-id-locations-load))
+  ;;(org-id-locations-load)
+  )
 
 
 (defun find-org-file-recursively (directory pattern)
