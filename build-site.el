@@ -42,7 +42,6 @@
 (progn
   (setq org-hugo-base-dir zv-hugo-base-dir)
   (setq org-pattern "\\.org$")
-  (org-export-with-broken-links t)
   ;; (setq org-id-track-globally t)
   (org-id-locations-load))
 
@@ -64,6 +63,7 @@ Exclude hidden directories and files, as well as entries containing '/.'."
 	;; (message "---> %s" elt)
 	(with-current-buffer (find-file-noselect elt)
     ;; (org-babel-execute-buffer t)
+	  (setq org-export-with-broken-links t)
     (org-hugo-export-wim-to-md))
 	
     (message (format "Exported from %s" elt)))
